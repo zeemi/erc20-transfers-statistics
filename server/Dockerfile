@@ -3,7 +3,14 @@ FROM node:9.4.0-alpine
 WORKDIR /usr/app
 
 COPY package*.json ./
-RUN npm install -qy
+RUN apk add --no-cache --virtual .gyp \
+        python \
+        bash \
+        git \
+        openssh \
+        make \
+        g++ \
+        && npm install -qy
 
 COPY . .
 

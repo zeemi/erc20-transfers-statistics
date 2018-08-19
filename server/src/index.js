@@ -1,7 +1,8 @@
 'use strict';
-
+const config = require('./config');
 const express = require('express');
 const path = require('path');
+const Web3 = require('web3');
 
 // Constants
 const PORT = process.env.PORT || 8080;
@@ -18,10 +19,19 @@ app.use(express.static(CLIENT_BUILD_PATH));
 // API
 app.get('/api', (req, res) => {
   res.set('Content-Type', 'application/json');
-  let data = {
-    message: 'Hello world, Woooooeeeee!!!!'
-  };
-  res.send(JSON.stringify(data, null, 2));
+
+  const provider = new Web3.providers.HttpProvider(config.ethNodeAddress);
+  const web3 = new Web3(provider);
+  console.log('web3: ', web3.eth.net.isListening().then(
+    (response) => {
+      console.log('is net loaded?:' ,response)
+      let data = {
+        message: 'Hello world, Woooooeeeee!!!!'
+      };
+      res.send(JSON.stringify(data, null, 2))
+    }) );
+
+  // res.send(JSON.stringify(data, null, 2));
 });
 
 // All remaining requests return the React app, so it can handle routing.

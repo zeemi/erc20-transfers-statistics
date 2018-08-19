@@ -10,7 +10,8 @@
   "author": "Peter Coles",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "web3": "^1.0.0-beta.35"
   },
   "devDependencies": {
     "nodemon": "^1.14.7"
