@@ -5,11 +5,11 @@ const getTokenTransferEvents = require('../../tokenEvents').getTokenTransferEven
 
 router.get('/statistics/:token', (req, res) => {
   res.set('Content-Type', 'application/json');
-  const limit = req.query.limit || config.defaultWindowsLimit;
-  getTokenTransferEvents(req.params.token, limit).then((events) => {
-    return res.send({eventsLength: events.length})
+  const windowsLimit = req.query.limit || config.defaultWindowsLimit;
+  const promisea = getTokenTransferEvents(req.params.token, windowsLimit)
+  return promisea.then((data) => {
+    return res.send(data)
   });
-
 });
 
 
