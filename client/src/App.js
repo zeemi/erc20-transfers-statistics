@@ -3,16 +3,14 @@ import logo from './logo.svg';
 import './compiled/App.css';
 import {fetchTokenStatistics} from "./redux/tokens/creators";
 import {connect} from "react-redux";
+import Inputs from "./containers/Inputs/Inputs";
+import Charts from "./containers/Charts/Charts";
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {};
-  }
-
-  componentDidMount() {
-    this.props.fetchTokenStatistics('test');
   }
 
   render() {
@@ -26,7 +24,8 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
 
         </p>
-        <p>{this.state.message || 'No message'}</p>
+        <Inputs/>
+        <Charts/>
       </div>
     );
   }

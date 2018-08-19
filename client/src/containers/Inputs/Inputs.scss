@@ -1,0 +1,12 @@
+.inputs {
+  max-width: 80%;
+  margin: 0 auto;
+  * {
+    margin: 5px;
+  }
+
+  .inputs-row{
+    display: flex;
+    align-items: center;
+  }
+}
