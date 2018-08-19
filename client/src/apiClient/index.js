@@ -1,7 +1,7 @@
 export default class ApiClient {
   _fetch = (endpoint) => {
     return fetch(`/api${endpoint}`).then((response) => { // .json()?
-      if (response < 400) {
+      if (response.status < 400) {
         return response.json()
       }
 

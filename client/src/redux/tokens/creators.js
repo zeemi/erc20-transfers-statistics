@@ -28,7 +28,7 @@ const fetchTokenStatisticsError = (token, error) => {
 
 export const fetchTokenStatistics = (token) => {
   return (dispatch) => {
-    dispatch(fetchTokenStatisticsRequest());
+    dispatch(fetchTokenStatisticsRequest(token));
     new ApiClient().fetchTokenStatistics(token, 1).then(
       (data) => {
         dispatch(fetchTokenStatisticsSuccess(token, data));
