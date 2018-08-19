@@ -9,15 +9,29 @@ router.get('/statistics/:token', (req, res) => {
   const windowsArray = Array.from(Array(windowsLimit), () => 0);
 
   return getTokenTransferEvents(req.params.token, windowsLimit).then((data) => {
-    data.events.forEach((event, index) => {
-      const windowsIndex = Math.floor((event.blockNumber - data.start_block) / config.statisticsBlocksWindowLength);
+
+    var nextThreshold = data.start_block + config.statisticsBlocksWindowLength;
+    var windowsIndex = 0;
+
+    data.events.forEach((event) => {
+
+      if (event.blockNumber >= nextThreshold) {
+        nextThreshold = nextThreshold + config.statisticsBlocksWindowLength;
+        windowsIndex = windowsIndex + 1;
+      }
+
       windowsArray[windowsIndex] = windowsArray[windowsIndex] + 1;
     });
 
-    return res.send(windowsArray)
-    return res.send(data)
+    return res.send({
+      transfersPerWindow: windowsArray,
+      window_length: config.statisticsBlocksWindowLength,
+      start_block: data.start_block,
+      start_timestamp: data.start_timestamp,
+      end_block: data.end_block,
+      end_timestamp: data.end_timestamp
+    })
   });
 });
-
 
 module.exports = router;
