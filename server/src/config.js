@@ -1,8 +1,7 @@
 module.exports = {
   ethNodeAddress: 'https://mainnet.infura.io/metamask',
-  statingBlock: 6100000,
-  statisticsBlocksWindowLength: 10000, // less then 2 days
-  defaultWindowsLimit: 10, // less then 2 days
+  statisticsBlocksWindowLength: 10000,
+  defaultWindowsLimit: 10,
   ERC20_ABI: [
     {
       "constant": true,
