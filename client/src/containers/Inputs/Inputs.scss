@@ -9,4 +9,10 @@
     display: flex;
     align-items: center;
   }
+
+  .button-container{
+    * {
+      margin: 5px;
+    }
+  }
 }

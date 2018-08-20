@@ -18,11 +18,16 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo"/>
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Statistics of transfers for ERC20 Tokens</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-
+          To get started, enter valid smart contract address for ERC20 Token and run `get statistics`.
+        </p>
+        <p>
+          Data visible in the chart are number of transfers of given token in window of 10 000 blocks.
+        </p>
+        <p>
+          You can specify number of windows that will be fetched and compare multiple Tokens.
         </p>
         <Inputs/>
         <Charts/>

@@ -26,7 +26,6 @@ export default function reducer(state = initialState, action = {}) {
         wasFetchingTriggered: true
       };
     case FETCH_TOKEN_STATISTIC_SUCCESS:
-      console.log(state.windowsLimit)
       return {
         ...state,
         startTimestamp: action.payload.data.start_timestamp,
@@ -39,7 +38,6 @@ export default function reducer(state = initialState, action = {}) {
         },
         chartsData: (state.chartsData.length ? state.chartsData : Array.from(Array(state.windowsLimit), () => ({}))).map(
           (chartItem, index) => {
-            debugger
             return {...chartItem, [action.payload.token]: action.payload.data.transfers_per_window[index]};
           }
         )

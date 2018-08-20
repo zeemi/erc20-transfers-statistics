@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../compiled/containers/Inputs/Inputs.css';
-import {fetchTokenStatistics, setWindowsLimit} from "../../redux/tokens/creators";
+import {fetchTokenStatistics, setWindowsLimit, reset} from "../../redux/tokens/creators";
 import {connect} from "react-redux";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -23,7 +23,7 @@ class Inputs extends Component {
   };
 
   render() {
-    const {isFetchingInProgress, setWindowsLimit, windowsLimit, wasFetchingTriggered} = this.props;
+    const {isFetchingInProgress, setWindowsLimit, windowsLimit, wasFetchingTriggered, reset} = this.props;
     return (
       <div className={'inputs'}>
         <div> example token address: "0xB8c77482e45F1F44dE1745F52C74426C631bDD52"</div>
@@ -43,12 +43,20 @@ class Inputs extends Component {
         <div>
           {isFetchingInProgress
             ? <CircularProgress />
-            : <Button variant="contained"
-                      color="primary"
-                      disabled={!this.state.token || isFetchingInProgress}
-                      onClick={this.handleSubmit}>
-              Get statistics
-            </Button>
+            : <div className='button-container'>
+                <Button variant="contained"
+                        color="primary"
+                        disabled={!this.state.token || isFetchingInProgress}
+                        onClick={this.handleSubmit}>
+                  Get statistics
+                </Button>
+                <Button variant="contained"
+                        color="secondary"
+                        disabled={!wasFetchingTriggered}
+                        onClick={reset}>
+                  Reset
+                </Button>
+              </div>
           }
 
         </div>
@@ -64,5 +72,5 @@ export default connect(
     wasFetchingTriggered: wasFetchingTriggered(state),
     windowsLimit: getWindowsLimit(state)
   }),
-  {fetchTokenStatistics, setWindowsLimit}
+  {fetchTokenStatistics, setWindowsLimit, reset}
 )(Inputs);
