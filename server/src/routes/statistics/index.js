@@ -24,7 +24,7 @@ router.get('/statistics/:token', (req, res) => {
     });
 
     return res.send({
-      transfersPerWindow: windowsArray,
+      transfers_per_window: windowsArray,
       window_length: config.statisticsBlocksWindowLength,
       start_block: data.start_block,
       start_timestamp: data.start_timestamp,

@@ -1,7 +1,7 @@
 export default class ApiClient {
-  _fetch = (url) => {
-    return fetch(url).then((response) => { // .json()?
-      if (response < 400) {
+  _fetch = (endpoint) => {
+    return fetch(`/api${endpoint}`).then((response) => { // .json()?
+      if (response.status < 400) {
         return response.json()
       }
 
@@ -14,8 +14,7 @@ export default class ApiClient {
     });
   };
 
-  fetchTokenStatistics(token) {
-    const url = '/api';
-    return this._fetch(`${url}?token=${token}`)
+  fetchTokenStatistics(token, limit) {
+    return this._fetch(`/statistics/${token}?limit=${limit}`)
   }
 }

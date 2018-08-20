@@ -1,5 +1,25 @@
 import ApiClient from '../../apiClient';
-import {FETCH_TOKEN_STATISTIC_ERROR, FETCH_TOKEN_STATISTIC_REQUEST, FETCH_TOKEN_STATISTIC_SUCCESS} from "./action";
+import {
+  FETCH_TOKEN_STATISTIC_ERROR,
+  FETCH_TOKEN_STATISTIC_REQUEST,
+  FETCH_TOKEN_STATISTIC_SUCCESS,
+  SET_WINDOWS_LIMIT,
+  RESET_ALL
+} from "./action";
+import {getWindowsLimit} from "./selectors";
+
+export const reset = () => {
+  return {
+    type: RESET_ALL
+  }
+};
+
+export const setWindowsLimit = (length) => {
+  return {
+    type: SET_WINDOWS_LIMIT,
+    payload: {length}
+  }
+};
 
 
 const fetchTokenStatisticsRequest = (token) => {
@@ -16,7 +36,6 @@ const fetchTokenStatisticsSuccess = (token, data) => {
   }
 };
 
-
 const fetchTokenStatisticsError = (token, error) => {
   return {
     type: FETCH_TOKEN_STATISTIC_ERROR,
@@ -24,12 +43,10 @@ const fetchTokenStatisticsError = (token, error) => {
   }
 };
 
-
-
 export const fetchTokenStatistics = (token) => {
-  return (dispatch) => {
-    dispatch(fetchTokenStatisticsRequest());
-    new ApiClient().fetchTokenStatistics(token).then(
+  return (dispatch, getState) => {
+    dispatch(fetchTokenStatisticsRequest(token));
+    new ApiClient().fetchTokenStatistics(token, getWindowsLimit(getState())).then(
       (data) => {
         dispatch(fetchTokenStatisticsSuccess(token, data));
       },
