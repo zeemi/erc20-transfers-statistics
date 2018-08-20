@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import '../../compiled/containers/Inputs/Inputs.css';
-import {fetchTokenStatistics} from "../../redux/tokens/creators";
+import {fetchTokenStatistics, setWindowsLimit} from "../../redux/tokens/creators";
 import {connect} from "react-redux";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {isFetchingInProgress, wasFetchingTriggered} from "../../redux/tokens/selectors";
+import {getWindowsLimit, isFetchingInProgress, wasFetchingTriggered} from "../../redux/tokens/selectors";
 
 
 class Inputs extends Component {
   constructor() {
     super();
-    this.state = {token: '', windowsLimit: 3};
+    this.state = {token: ''};
   }
 
   handleChange = (event) => {
@@ -23,7 +23,7 @@ class Inputs extends Component {
   };
 
   render() {
-    const {isFetchingInProgress, wasFetchingTriggered} = this.props;
+    const {isFetchingInProgress, setWindowsLimit, windowsLimit, wasFetchingTriggered} = this.props;
     return (
       <div className={'inputs'}>
         <div> example token address: "0xB8c77482e45F1F44dE1745F52C74426C631bDD52"</div>
@@ -33,9 +33,10 @@ class Inputs extends Component {
                      onChange={this.handleChange}
                      label={'ERC20 Token Address'}
                      placeholder={'Please enter smart contract address of a ERC20 Token'}/>
-          <TextField value={this.state.windowsLimit}
+          <TextField value={windowsLimit}
                      label={'Number of windows'}
                      type={'number'}
+                     onChange={(event) => {setWindowsLimit(parseInt(event.target.value, 10))}}
                      disabled={wasFetchingTriggered}
                      placeholder={'Please enter smart contract address of a ERC20 Token'}/>
         </div>
@@ -60,7 +61,8 @@ class Inputs extends Component {
 export default connect(
   (state) => ({
     isFetchingInProgress: isFetchingInProgress(state),
-    wasFetchingTriggered: wasFetchingTriggered(state)
+    wasFetchingTriggered: wasFetchingTriggered(state),
+    windowsLimit: getWindowsLimit(state)
   }),
-  {fetchTokenStatistics}
+  {fetchTokenStatistics, setWindowsLimit}
 )(Inputs);

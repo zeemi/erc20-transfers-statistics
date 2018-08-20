@@ -1,4 +1,9 @@
-import {FETCH_TOKEN_STATISTIC_ERROR, FETCH_TOKEN_STATISTIC_REQUEST, FETCH_TOKEN_STATISTIC_SUCCESS} from "./action";
+import {
+  FETCH_TOKEN_STATISTIC_ERROR,
+  FETCH_TOKEN_STATISTIC_REQUEST,
+  FETCH_TOKEN_STATISTIC_SUCCESS,
+  SET_WINDOWS_LIMIT
+} from "./action";
 
 const initialState = {
   tokenInput: '',
@@ -21,6 +26,7 @@ export default function reducer(state = initialState, action = {}) {
         wasFetchingTriggered: true
       };
     case FETCH_TOKEN_STATISTIC_SUCCESS:
+      console.log(state.windowsLimit)
       return {
         ...state,
         startTimestamp: action.payload.data.start_timestamp,
@@ -33,10 +39,10 @@ export default function reducer(state = initialState, action = {}) {
         },
         chartsData: (state.chartsData.length ? state.chartsData : Array.from(Array(state.windowsLimit), () => ({}))).map(
           (chartItem, index) => {
+            debugger
             return {...chartItem, [action.payload.token]: action.payload.data.transfers_per_window[index]};
           }
         )
-
       };
     case FETCH_TOKEN_STATISTIC_ERROR:
       return {
@@ -46,6 +52,11 @@ export default function reducer(state = initialState, action = {}) {
           [action.payload.token]: {
             ...(state.statistics[action.payload.token] ? state.statistics[action.payload.token] : {}),
             fetchingInProgress: false, error: action.payload.error}}
+      };
+    case SET_WINDOWS_LIMIT:
+      return {
+        ...state,
+        windowsLimit: action.payload.length
       };
     default:
       return state;
